@@ -8,15 +8,39 @@ Full-stack financial web application built with **Flutter Web** frontend and a *
 
 - **Responsive Web UI**: Built with Flutter Web using modern typography (`GoogleFonts`), custom dark mode theme, glassmorphism card styling, and multi-breakpoint responsive layouts (`ResponsiveLayout`).
 - **RESTful Authentication API**: Node.js & Express API providing secure endpoints for registration (`/api/v1/auth/signup`), authentication (`/api/v1/auth/login`), JWT token generation, and password hashing (`bcryptjs`).
-- **Interactive Dashboard**: Protected user state and interactive balance summary.
+- **Interactive Dashboard**: Protected user state, animated company growth chart, circular stat badges, and interactive shipment tracking accordion cards.
 
 ---
 
 ## 💾 Data Storage & User Persistence
 
 - **In-Memory User Store**: User accounts are dynamically created and stored in server memory (`const users = []`) with passwords securely encrypted via `bcryptjs`.
-- **Dynamic Registration & Authentication**: Any user can sign up with arbitrary custom details (Name, Email, Phone Number, Password) and immediately log in with those registered credentials.
+- **Dynamic Registration & Authentication**: Any user can sign up with custom details (Name, Email, Phone Number, Password) and immediately log in with those registered credentials.
 - **Session Lifetime**: User data remains available across Sign-Up and Login flows while the backend server process (`backend/index.js`) is active. Restarting the server resets the temporary in-memory store.
+
+---
+
+## 🌐 Deploying to Vercel (Unified Single Project)
+
+Both the Flutter Web frontend and Node.js Express backend can be hosted together in a single Vercel project under one domain.
+
+### 1. Build Production Frontend
+From the root workspace directory:
+```bash
+cd frontend
+flutter build web --release
+cd ..
+```
+
+### 2. Deploy Unified App to Vercel
+From the root directory:
+```bash
+npx vercel --prod
+```
+
+Vercel will use the root [vercel.json](file:///home/sophia/Documents/My%20Stuff/SecureByPayAssessment/vercel.json) to automatically route:
+- `/api/*` → Node.js Serverless Express Backend (`backend/index.js`)
+- `/*` → Static Flutter Web Frontend (`frontend/build/web`)
 
 ---
 
@@ -24,12 +48,13 @@ Full-stack financial web application built with **Flutter Web** frontend and a *
 
 ```
 SecureByPayAssessment/
+├── vercel.json               # Unified Vercel deployment configuration
 ├── backend/                  # Node.js + Express API server
 │   ├── index.js              # Auth endpoints & REST routes
 │   └── package.json          # Node dependencies
 ├── frontend/                 # Flutter Web application
 │   ├── lib/
-│   │   ├── auth_provider.dart    # State management & API integration
+│   │   ├── auth_provider.dart    # State management & dynamic API url
 │   │   ├── responsive_layout.dart # Breakpoint layout builder
 │   │   └── main.dart             # UI screens & auth form components
 │   └── pubspec.yaml          # Flutter dependencies
@@ -39,7 +64,7 @@ SecureByPayAssessment/
 
 ---
 
-## 🛠 Setup & Run Instructions
+## 🛠 Setup & Run Instructions (Local)
 
 ### Prerequisites
 

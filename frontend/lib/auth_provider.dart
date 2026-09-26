@@ -37,8 +37,10 @@ class AuthProvider extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
   bool get isAuthenticated => _token != null && _token!.isNotEmpty;
 
-  // Use localhost for web target
-  final String baseUrl = 'http://localhost:5000/api/v1';
+  // Dynamic baseUrl: relative path for production unified web hosting, localhost for dev
+  final String baseUrl = kIsWeb && !kDebugMode 
+      ? '/api/v1' 
+      : 'http://localhost:5000/api/v1';
 
   void _setLoading(bool value) {
     _isLoading = value;
