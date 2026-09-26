@@ -57,7 +57,14 @@ class _AuthScreenWrapperState extends State<AuthScreenWrapper> {
     final auth = Provider.of<AuthProvider>(context);
 
     if (auth.isAuthenticated) {
-      return const DashboardScreen();
+      return DashboardScreen(
+        onLogout: () {
+          auth.logout();
+          setState(() {
+            isLogin = true;
+          });
+        },
+      );
     }
 
     return Scaffold(
@@ -535,7 +542,8 @@ class _AuthFormContentState extends State<AuthFormContent> {
 }
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+  final VoidCallback? onLogout;
+  const DashboardScreen({super.key, this.onLogout});
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -639,7 +647,13 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
               ),
               const SizedBox(height: 16),
               InkWell(
-                onTap: () => auth.logout(),
+                onTap: () {
+                  if (widget.onLogout != null) {
+                    widget.onLogout!();
+                  } else {
+                    auth.logout();
+                  }
+                },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                   child: Row(
