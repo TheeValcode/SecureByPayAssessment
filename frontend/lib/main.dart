@@ -436,7 +436,7 @@ class _AuthFormContentState extends State<AuthFormContent> {
                           if (success) {
                             messenger.showSnackBar(
                               const SnackBar(
-                                content: Text('Registration successful! Please log in to your account.'),
+                                content: Text('Registration successful! Please log in with your credentials.'),
                                 backgroundColor: Color(0xFF10B981),
                                 duration: Duration(seconds: 4),
                               ),
