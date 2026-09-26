@@ -76,6 +76,8 @@ class AuthProvider extends ChangeNotifier {
       final data = jsonDecode(response.body);
 
       if (response.statusCode == 201 && data['status'] == 'success') {
+        _currentUser = User.fromJson(data['data']['user']);
+        _token = data['data']['token'];
         _setLoading(false);
         return true;
       } else {

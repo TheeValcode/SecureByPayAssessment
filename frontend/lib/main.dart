@@ -436,12 +436,11 @@ class _AuthFormContentState extends State<AuthFormContent> {
                           if (success) {
                             messenger.showSnackBar(
                               const SnackBar(
-                                content: Text('Registration successful! Please log in with your credentials.'),
+                                content: Text('Registration successful! Welcome to Myafrimall.'),
                                 backgroundColor: Color(0xFF10B981),
-                                duration: Duration(seconds: 4),
+                                duration: Duration(seconds: 3),
                               ),
                             );
-                            widget.onToggle();
                           }
                         }
                       }

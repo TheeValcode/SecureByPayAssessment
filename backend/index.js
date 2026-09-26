@@ -11,17 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 // In-memory data store for demonstration
-// Seeded demo account for serverless testing (Password: Password123!)
-const users = [
-  {
-    id: 'usr_demo_1',
-    fullName: 'Jane Doe',
-    email: 'jane@example.com',
-    phoneNumber: '+2348012345678',
-    password: '$2a$10$e74n6H.05Z4EaA6gJ4h8z.8l0nU2l4E.x.8n.1e.4l0nU2l4E.x.', // Hashed password
-    createdAt: new Date().toISOString()
-  }
-];
+const users = [];
 
 // Middleware to verify JWT token
 const authenticateToken = (req, res, next) => {
