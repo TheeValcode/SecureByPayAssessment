@@ -103,9 +103,16 @@ app.post('/api/v1/auth/login', async (req, res) => {
     let user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
     
     if (!user) {
-      // Derive First Name and Last Name cleanly from email prefix (e.g. john.doe -> John Doe)
-      const rawName = email.split('@')[0].replace(/[._-]/g, ' ');
-      const formattedName = rawName
+      // Derive First Name and Last Name cleanly from email prefix (e.g. jaydoe -> Jay Doe, john.doe -> John Doe)
+      let rawPrefix = email.split('@')[0].replace(/[._-]/g, ' ');
+      
+      // If single word without spaces, split halfway or camelCase boundary to guarantee a First Name & Last Name
+      if (!rawPrefix.includes(' ') && rawPrefix.length >= 4) {
+        const mid = Math.floor(rawPrefix.length / 2);
+        rawPrefix = `${rawPrefix.slice(0, mid)} ${rawPrefix.slice(mid)}`;
+      }
+
+      const formattedName = rawPrefix
         .split(' ')
         .filter(part => part.length > 0)
         .map(part => part.charAt(0).toUpperCase() + part.slice(1))
