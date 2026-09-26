@@ -103,9 +103,13 @@ app.post('/api/v1/auth/login', async (req, res) => {
     let user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
     
     if (!user) {
-      // Derive a user object on the fly from the login email
-      const nameFromEmail = email.split('@')[0];
-      const formattedName = nameFromEmail.charAt(0).toUpperCase() + nameFromEmail.slice(1);
+      // Derive First Name and Last Name cleanly from email prefix (e.g. john.doe -> John Doe)
+      const rawName = email.split('@')[0].replace(/[._-]/g, ' ');
+      const formattedName = rawName
+        .split(' ')
+        .filter(part => part.length > 0)
+        .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(' ') || 'Firstname Lastname';
       
       user = {
         id: `usr_${Date.now()}`,
